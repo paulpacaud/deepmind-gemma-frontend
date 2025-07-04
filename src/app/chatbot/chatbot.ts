@@ -1,6 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
-import { NgFor } from '@angular/common';
-import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormsModule,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 
@@ -12,7 +16,7 @@ interface Msg {
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [ReactiveFormsModule, NgFor],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './chatbot.html',
   styleUrl: './chatbot.css',
 })

@@ -71,10 +71,17 @@ export class ApiService {
   }
 
   chat(message: string): Observable<string> {
-    return this.http.post(
+    // simulate a placeholder response, don't make the call for now
+    return new Observable<string>((observer) => {
+      setTimeout(() => {
+        observer.next(`You said: ${message}`);
+        observer.complete();
+      }, 1000);
+    });
+    /*    return this.http.post(
       `${this.base}/chat`,
       { message },
       { responseType: 'text' },
-    );
+    );*/
   }
 }

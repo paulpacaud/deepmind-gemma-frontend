@@ -1,73 +1,200 @@
 <div class="records-container" *ngIf="!loading(); else spinner">
-  <h1>{{ record()?.personal_information?.first_name }} {{ record()?.personal_information?.last_name }}</h1>
-  <p><strong>Age:</strong> {{ calculateAge(record()?.personal_information?.date_of_birth) }}</p>
+  <div class="records-wrapper">
+    <!-- Patient Header -->
+    <div class="patient-header">
+      <h1 class="patient-name">
+        {{ record()?.personal_information?.first_name }}
+        {{ record()?.personal_information?.last_name }}
+      </h1>
+      <p class="patient-age">
+        <strong>Age:</strong> {{ calculateAge(record()?.personal_information?.date_of_birth) }} years old
+      </p>
+    </div>
 
-  <section>
-    <h2>Conditions</h2>
-    <ul>
-      <li *ngFor="let c of record()?.medical_history?.conditions">{{ c }}</li>
-    </ul>
-  </section>
+    <!-- Records Content -->
+    <div class="records-content">
+      <div class="records-grid">
+        <!-- Medical Conditions -->
+        <div class="medical-card conditions">
+          <div class="card-header">
+            <div class="card-icon">🏥</div>
+            <h2 class="card-title">Medical Conditions</h2>
+          </div>
+          <div class="card-content">
+            <ul class="medical-list" *ngIf="record()?.medical_history?.conditions?.length; else noConditions">
+              <li *ngFor="let condition of record()?.medical_history?.conditions">
+                {{ condition }}
+              </li>
+            </ul>
+            <ng-template #noConditions>
+              <p style="color: #94a3b8; font-style: italic;">No medical conditions recorded</p>
+            </ng-template>
+          </div>
+        </div>
 
-  <section>
-    <h2>Surgeries</h2>
-    <ul>
-      <li *ngFor="let s of record()?.medical_history?.surgeries">{{ s.name }} ({{ s.year }})</li>
-    </ul>
-  </section>
+        <!-- Surgeries -->
+        <div class="medical-card surgeries">
+          <div class="card-header">
+            <div class="card-icon">⚕️</div>
+            <h2 class="card-title">Surgical History</h2>
+          </div>
+          <div class="card-content">
+            <ul class="medical-list" *ngIf="record()?.medical_history?.surgeries?.length; else noSurgeries">
+              <li *ngFor="let surgery of record()?.medical_history?.surgeries">
+                <strong>{{ surgery.name }}</strong> ({{ surgery.year }})
+              </li>
+            </ul>
+            <ng-template #noSurgeries>
+              <p style="color: #94a3b8; font-style: italic;">No surgical history recorded</p>
+            </ng-template>
+          </div>
+        </div>
 
-  <section>
-    <h2>Allergies</h2>
-    <ul>
-      <li *ngFor="let a of record()?.allergies">{{ a.substance }} (Reaction: {{ a.reaction }})</li>
-    </ul>
-  </section>
+        <!-- Allergies -->
+        <div class="medical-card allergies">
+          <div class="card-header">
+            <div class="card-icon">⚠️</div>
+            <h2 class="card-title">Allergies & Reactions</h2>
+          </div>
+          <div class="card-content">
+            <ul class="medical-list" *ngIf="record()?.allergies?.length; else noAllergies">
+              <li *ngFor="let allergy of record()?.allergies">
+                <strong>{{ allergy.substance }}</strong>
+                <br><small style="color: #f59e0b;">Reaction: {{ allergy.reaction }}</small>
+              </li>
+            </ul>
+            <ng-template #noAllergies>
+              <p style="color: #94a3b8; font-style: italic;">No known allergies</p>
+            </ng-template>
+          </div>
+        </div>
 
-  <section>
-    <h2>Medications</h2>
-    <ul>
-      <li *ngFor="let t of record()?.treatment">{{ t.medication }} - {{ t.dosage }} - {{t.schedule}}</li>
-    </ul>
-  </section>
+        <!-- Current Medications -->
+        <div class="medical-card medications">
+          <div class="card-header">
+            <div class="card-icon">💊</div>
+            <h2 class="card-title">Current Medications</h2>
+          </div>
+          <div class="card-content">
+            <ul class="medical-list" *ngIf="record()?.treatment?.length; else noMedications">
+              <li *ngFor="let medication of record()?.treatment">
+                <strong>{{ medication.medication }}</strong>
+                <br><small>{{ medication.dosage }} - {{ medication.schedule }}</small>
+              </li>
+            </ul>
+            <ng-template #noMedications>
+              <p style="color: #94a3b8; font-style: italic;">No current medications</p>
+            </ng-template>
+          </div>
+        </div>
 
-  <section>
-    <h2>Lifestyle</h2>
-    <p><strong>Relationship Status:</strong> {{ record()?.lifestyle?.relationship_status }}</p>
-    <p><strong>Children:</strong> {{ record()?.lifestyle?.children ? 'Yes' : 'No' }}</p>
-    <p><strong>Living Alone:</strong> {{ record()?.lifestyle?.living_alone ? 'Yes' : 'No' }}</p>
-    <p><strong>Alcohol/Tobacco Use:</strong> {{ record()?.lifestyle?.alcohol_tobacco_use }}</p>
-  </section>
+        <!-- Lifestyle Information -->
+        <div class="medical-card lifestyle">
+          <div class="card-header">
+            <div class="card-icon">🌱</div>
+            <h2 class="card-title">Lifestyle & Social History</h2>
+          </div>
+          <div class="card-content">
+            <div class="lifestyle-grid" *ngIf="record()?.lifestyle">
+              <div class="lifestyle-item">
+                <strong>Relationship Status</strong>
+                {{ record()?.lifestyle?.relationship_status }}
+              </div>
+              <div class="lifestyle-item">
+                <strong>Children</strong>
+                {{ record()?.lifestyle?.children ? 'Yes' : 'No' }}
+              </div>
+              <div class="lifestyle-item">
+                <strong>Living Situation</strong>
+                {{ record()?.lifestyle?.living_alone ? 'Lives alone' : 'Lives with others' }}
+              </div>
+              <div class="lifestyle-item">
+                <strong>Substance Use</strong>
+                {{ record()?.lifestyle?.alcohol_tobacco_use }}
+              </div>
+            </div>
+          </div>
+        </div>
 
-  <section>
-    <h2>Lab Results</h2>
-    <ul>
-      <li *ngFor="let l of record()?.lab_results">
-        <strong>{{ l.date }}:</strong>
-        Sodium: {{ l.sodium_mmol_per_L }} mmol/L,
-        Potassium: {{ l.potassium_mmol_per_L }} mmol/L,
-        Creatinine: {{ l.creatinine_umol_per_L }} umol/L
-      </li>
-    </ul>
-  </section>
+        <!-- Lab Results -->
+        <div class="medical-card lab-results">
+          <div class="card-header">
+            <div class="card-icon">🧪</div>
+            <h2 class="card-title">Laboratory Results</h2>
+          </div>
+          <div class="card-content">
+            <div class="lab-grid" *ngIf="record()?.lab_results?.length; else noLabResults">
+              <div class="lab-item" *ngFor="let lab of record()?.lab_results">
+                <div class="lab-date">{{ lab.date }}</div>
+                <div class="lab-values">
+                  <div class="lab-value">
+                    <span>Sodium:</span>
+                    <strong>{{ lab.sodium_mmol_per_L }} mmol/L</strong>
+                  </div>
+                  <div class="lab-value">
+                    <span>Potassium:</span>
+                    <strong>{{ lab.potassium_mmol_per_L }} mmol/L</strong>
+                  </div>
+                  <div class="lab-value">
+                    <span>Creatinine:</span>
+                    <strong>{{ lab.creatinine_umol_per_L }} µmol/L</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-template #noLabResults>
+              <p style="color: #94a3b8; font-style: italic;">No recent lab results</p>
+            </ng-template>
+          </div>
+        </div>
 
-  <section>
-    <h2>Imaging</h2>
-    <ul>
-      <li *ngFor="let i of record()?.imaging">
-        <strong>{{ i.date }} - {{ i.type }}:</strong> {{ i.result }}
-      </li>
-    </ul>
-  </section>
+        <!-- Imaging Studies -->
+        <div class="medical-card imaging">
+          <div class="card-header">
+            <div class="card-icon">🔬</div>
+            <h2 class="card-title">Imaging Studies</h2>
+          </div>
+          <div class="card-content">
+            <div *ngIf="record()?.imaging?.length; else noImaging">
+              <div class="imaging-item" *ngFor="let image of record()?.imaging">
+                <div class="imaging-header">
+                  <div class="imaging-type">{{ image.type }}</div>
+                  <div class="imaging-date">{{ image.date }}</div>
+                </div>
+                <div class="imaging-result">{{ image.result }}</div>
+              </div>
+            </div>
+            <ng-template #noImaging>
+              <p style="color: #94a3b8; font-style: italic;">No imaging studies on record</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
 
-  <button class="chat-btn" (click)="openChat()">💬 New Chat</button>
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="chat-btn" (click)="openChat()">
+          💬 Start Medical Consultation
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- Loading Spinner -->
 <ng-template #spinner>
-  <div class="center">Loading records…</div>
+  <div class="center">
+    <div class="loading-spinner"></div>
+    <div>Loading medical records...</div>
+  </div>
 </ng-template>
 
-<button class="fab" (click)="toggleCamera()">📷</button>
+<!-- Floating Camera Button -->
+<button class="fab" (click)="toggleCamera()" title="Scan Medical Document">
+  📷
+</button>
 
+<!-- Camera Component -->
 <app-camera
   *ngIf="cameraOpen()"
   (captured)="onCaptureDone()"
