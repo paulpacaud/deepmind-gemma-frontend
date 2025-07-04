@@ -1,0 +1,72 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+header {
+  padding: 0.8rem 1rem;
+  background: #1976d2;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.chat {
+  flex: 1 1 auto;
+  list-style: none;
+  margin: 0;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.chat li {
+  max-width: 80%;
+  margin-bottom: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.7rem;
+  background: #eceff1;
+}
+
+.chat li.me {
+  margin-left: auto;
+  background: #d1e4ff;
+}
+
+.input-bar {
+  display: flex;
+  padding: 0.4rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+input[type='text'] {
+  flex: 1 1 auto;
+  padding: 0.6rem;
+  border: 1px solid #bdbdbd;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+}
+
+button[type='submit'] {
+  width: 3rem;
+  margin-left: 0.4rem;
+  border: none;
+  background: #1976d2;
+  color: #fff;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

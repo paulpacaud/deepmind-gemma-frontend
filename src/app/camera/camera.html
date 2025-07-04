@@ -1,1 +1,14 @@
-<p>camera works!</p>
+<div class="overlay">
+  <div class="camera-box">
+    <video #video autoplay playsinline></video>
+    <canvas #canvas hidden></canvas>
+
+    <div class="controls">
+      <button (click)="take()" [disabled]="saving()">📸 Capture</button>
+      <button (click)="close()">✖ Close</button>
+    </div>
+
+    <p *ngIf="saving()">Uploading…</p>
+    <p class="error" *ngIf="error()">{{ error() }}</p>
+  </div>
+</div>

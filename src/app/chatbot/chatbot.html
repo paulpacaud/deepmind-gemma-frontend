@@ -1,1 +1,15 @@
-<p>chatbot works!</p>
+<header>
+  <button class="back" (click)="back()">← Back to records</button>
+  <h1>Medical Chat</h1>
+</header>
+
+<ul class="chat">
+  <li *ngFor="let m of messages(); track m" [class.me]="m.from === 'user'">
+    {{ m.text }}
+  </li>
+</ul>
+
+<form (submit)="send()" class="input-bar">
+  <input type="text" [formControl]="input" placeholder="Type your question…" />
+  <button type="submit" [disabled]="sending()">➤</button>
+</form>

@@ -1,1 +1,34 @@
-<p>records works!</p>
+<div class="records-container" *ngIf="!loading(); else spinner">
+  <h1>{{ record()?.name }}</h1>
+  <p><strong>Age:</strong> {{ record()?.age }}</p>
+
+  <section>
+    <h2>Conditions</h2>
+    <ul>
+      <li *ngFor="let c of record()?.conditions">{{ c }}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Medications</h2>
+    <ul>
+      <li *ngFor="let m of record()?.medications">{{ m }}</li>
+    </ul>
+  </section>
+
+  <button class="chat-btn" (click)="openChat()">💬 New Chat</button>
+</div>
+
+<ng-template #spinner>
+  <div class="center">Loading records…</div>
+</ng-template>
+
+<!-- Floating camera button -->
+<button class="fab" (click)="toggleCamera()">📷</button>
+
+<!-- Overlay camera -->
+<app-camera
+  *ngIf="cameraOpen()"
+  (captured)="onCaptureDone()"
+  (closed)="toggleCamera()"
+></app-camera>

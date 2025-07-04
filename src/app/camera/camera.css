@@ -1,0 +1,51 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.6);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+}
+
+.camera-box {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.8rem;
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.4);
+  width: 90vw;
+  max-width: 480px;
+}
+
+video {
+  width: 100%;
+  border-radius: 0.4rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.8rem;
+}
+
+button {
+  flex: 1 1 45%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+button:first-child {
+  background: #4caf50;
+  color: #fff;
+}
+
+button:last-child {
+  background: #f44336;
+  color: #fff;
+}
+
+.error {
+  color: #d32f2f;
+  margin-top: 0.5rem;
+}
