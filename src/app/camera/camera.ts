@@ -30,6 +30,7 @@ export class Camera {
 
   saving = signal(false);
   error = signal<string | null>(null);
+  info = signal<string | null>(null);
 
   async ngAfterViewInit(): Promise<void> {
     try {
@@ -55,6 +56,7 @@ export class Camera {
 
     const base64 = canvas.toDataURL('image/png').split(',')[1];
     this.saving.set(true);
+
     this.api.scanImage(base64).subscribe({
       next: () => {
         this.saving.set(false);
