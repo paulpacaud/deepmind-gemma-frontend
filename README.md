@@ -1,59 +1,45 @@
-# DeepmindGemmaFrontend
+## Install and run the app on your computer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
+First, git clone this git repository with git clone followed by the URL of the git:
 
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
+```shell
+git clone git@github.com:paulpacaud/deepmind-gemma-frontend.git
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Then go in the directory, and stay in it for the following commands.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```shell
+cd deepmind-gemma-frontend.git
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Make sure that Node.js, npm (Node Package Manager), yarn, and angular are correctly installed
 
-```bash
-ng generate --help
+```shell
+node --version
+yarn --version
+ng --version
 ```
 
-## Building
+If needed, install Node.js from https://nodejs.org (npm will be installed along Node)
 
-To build the project run:
+If needed, you can install Angular like this:
 
-```bash
-ng build
+```shell
+yarn global add @angular/cli
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+And finally, before running the app, you have to install all the dependencies of the project:
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```shell
+yarn install
 ```
 
-## Running end-to-end tests
+## Running the app
 
-For end-to-end (e2e) testing, run:
+Great! Everything is installed, you can now run the frontend app
 
-```bash
-ng e2e
+```shell
+yarn watch
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+To see your application in the browser, go to http://localhost:4200/.
