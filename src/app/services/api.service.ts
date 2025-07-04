@@ -3,13 +3,44 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface MedicalRecord {
-  // tailor this to the exact shape of patient.json
-  id: string;
-  name: string;
-  age: number;
-  conditions: string[];
-  medications: string[];
-  [key: string]: unknown;
+  personal_information?: {
+    last_name: string;
+    first_name: string;
+    date_of_birth: string;
+  };
+  medical_history?: {
+    conditions: string[];
+    surgeries: {
+      name: string;
+      year: number;
+    }[];
+  };
+  allergies?: {
+    substance: string;
+    reaction: string;
+  }[];
+  treatment?: {
+    medication: string;
+    dosage: string;
+    schedule: string;
+  }[];
+  lifestyle?: {
+    relationship_status: string;
+    children: boolean;
+    living_alone: boolean;
+    alcohol_tobacco_use: string;
+  };
+  lab_results?: {
+    date: string;
+    sodium_mmol_per_L: number;
+    potassium_mmol_per_L: number;
+    creatinine_umol_per_L: number;
+  }[];
+  imaging?: {
+    date: string;
+    type: string;
+    result: string;
+  }[];
 }
 
 @Injectable({ providedIn: 'root' })

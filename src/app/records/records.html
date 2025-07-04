@@ -1,18 +1,61 @@
 <div class="records-container" *ngIf="!loading(); else spinner">
-  <h1>{{ record()?.name }}</h1>
-  <p><strong>Age:</strong> {{ record()?.age }}</p>
+  <h1>{{ record()?.personal_information?.first_name }} {{ record()?.personal_information?.last_name }}</h1>
+  <p><strong>Age:</strong> {{ calculateAge(record()?.personal_information?.date_of_birth) }}</p>
 
   <section>
     <h2>Conditions</h2>
     <ul>
-      <li *ngFor="let c of record()?.conditions">{{ c }}</li>
+      <li *ngFor="let c of record()?.medical_history?.conditions">{{ c }}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Surgeries</h2>
+    <ul>
+      <li *ngFor="let s of record()?.medical_history?.surgeries">{{ s.name }} ({{ s.year }})</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Allergies</h2>
+    <ul>
+      <li *ngFor="let a of record()?.allergies">{{ a.substance }} (Reaction: {{ a.reaction }})</li>
     </ul>
   </section>
 
   <section>
     <h2>Medications</h2>
     <ul>
-      <li *ngFor="let m of record()?.medications">{{ m }}</li>
+      <li *ngFor="let t of record()?.treatment">{{ t.medication }} - {{ t.dosage }} - {{t.schedule}}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Lifestyle</h2>
+    <p><strong>Relationship Status:</strong> {{ record()?.lifestyle?.relationship_status }}</p>
+    <p><strong>Children:</strong> {{ record()?.lifestyle?.children ? 'Yes' : 'No' }}</p>
+    <p><strong>Living Alone:</strong> {{ record()?.lifestyle?.living_alone ? 'Yes' : 'No' }}</p>
+    <p><strong>Alcohol/Tobacco Use:</strong> {{ record()?.lifestyle?.alcohol_tobacco_use }}</p>
+  </section>
+
+  <section>
+    <h2>Lab Results</h2>
+    <ul>
+      <li *ngFor="let l of record()?.lab_results">
+        <strong>{{ l.date }}:</strong>
+        Sodium: {{ l.sodium_mmol_per_L }} mmol/L,
+        Potassium: {{ l.potassium_mmol_per_L }} mmol/L,
+        Creatinine: {{ l.creatinine_umol_per_L }} umol/L
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Imaging</h2>
+    <ul>
+      <li *ngFor="let i of record()?.imaging">
+        <strong>{{ i.date }} - {{ i.type }}:</strong> {{ i.result }}
+      </li>
     </ul>
   </section>
 
@@ -23,10 +66,8 @@
   <div class="center">Loading records…</div>
 </ng-template>
 
-<!-- Floating camera button -->
 <button class="fab" (click)="toggleCamera()">📷</button>
 
-<!-- Overlay camera -->
 <app-camera
   *ngIf="cameraOpen()"
   (captured)="onCaptureDone()"
