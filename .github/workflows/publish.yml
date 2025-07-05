@@ -1,0 +1,19 @@
+name: Build & deploy to Hostinger
+on:
+  push:
+    branches: [main]
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm ci
+      - run: npm run build --if-present
+      - name: Push build to build branch
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: github.com/${{ github.repository }}
+          BRANCH: build
+          FOLDER: dist/your-app-name
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MESSAGE: "Deploy build ⬆️"
