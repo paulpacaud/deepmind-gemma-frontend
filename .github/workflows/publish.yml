@@ -9,20 +9,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Adjust to match your Angular requirements
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          echo "📦 Installing dependencies..."
+          npm ci --prefer-offline --no-audit
+          echo "✅ Dependencies installed successfully"
 
       - name: Build Angular app
-        run: npm run build --configuration production
+        run: |
+          echo "🔨 Building Angular application..."
+          npm run build -- --configuration=production
+          echo "✅ Build completed successfully"
+          echo "📁 Build output:"
+          ls -la dist/
 
       - name: Set up SSH
         run: |
+          echo "🔐 Setting up SSH..."
           mkdir -p ~/.ssh
           echo "${{ secrets.ACTIONS_DEPLOY_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+          echo "✅ SSH setup completed"
 
       - name: Deploy to build branch
         uses: s0/git-publish-subdir-action@develop
@@ -30,4 +47,5 @@ jobs:
           REPO: git@github.com:paulpacaud/deepmind-gemma-frontend.git
           BRANCH: build
           FOLDER: dist/deepmind-gemma-frontend
-          MESSAGE: "Deploy build ⬆️"
+          MESSAGE: "Deploy build 📦 - ${{ github.sha }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Added for better authentication
