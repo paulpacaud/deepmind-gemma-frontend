@@ -1,0 +1,48 @@
+#-------------------------------------------------
+# Node & Angular build artefacts
+#-------------------------------------------------
+node_modules
+dist
+.tmp
+# Angular build cache (Angular 17+)
+.angular
+# pnpm store (if you ever switch from npm/yarn)
+.pnpm-store
+
+#-------------------------------------------------
+# VCS and IDE cruft
+#-------------------------------------------------
+.git
+.gitignore
+.gitattributes
+.gitlab*
+.github
+*.swp
+*.swo
+*.swn
+*.log
+*.lock
+*.DS_Store
+.idea
+.vscode
+.env
+.env.*
+
+#-------------------------------------------------
+# Docker
+#-------------------------------------------------
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml
+*.dockerignore  # ignore other ignore files
+
+#-------------------------------------------------
+# Tests & coverage
+#-------------------------------------------------
+coverage
+karma.conf.js
+jest.config.*
+*.spec.ts
+# Cypress / Playwright
+cypress
+playwright-report

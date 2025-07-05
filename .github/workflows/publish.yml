@@ -1,19 +1,88 @@
-name: Build & deploy to Hostinger
+name: Build & Deploy
+
 on:
   push:
     branches: [main]
+
 jobs:
-  build-and-push:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - run: npm ci
-      - run: npm run build --if-present
-      - name: Push build to build branch
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.19'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          echo "📦 Installing dependencies..."
+          npm ci --prefer-offline --no-audit
+          echo "✅ Dependencies installed successfully"
+
+      - name: Build Angular app
+        run: |
+          echo "🔨 Building Angular application..."
+          npm run build -- --configuration=production
+          echo "✅ Build completed successfully"
+          echo "📁 Build output:"
+          ls -la dist/
+
+      - name: Create .htaccess for Apache
+        run: |
+          echo "🔧 Creating .htaccess file..."
+          cat > dist/deepmind-gemma-frontend/.htaccess << 'EOF'
+          RewriteEngine On
+
+          # Handle Angular routing - redirect all requests to index.html
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          RewriteRule ^(.*)$ /smr/browser/index.html [L]
+
+          # Security headers
+          Header always set X-Content-Type-Options nosniff
+          Header always set X-Frame-Options DENY
+          Header always set X-XSS-Protection "1; mode=block"
+
+          # Cache static assets
+          <filesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$">
+              ExpiresActive On
+              ExpiresDefault "access plus 1 month"
+              Header set Cache-Control "public, max-age=2592000"
+          </filesMatch>
+
+          # Don't cache HTML files
+          <filesMatch "\.(html|htm)$">
+              ExpiresActive Off
+              Header set Cache-Control "no-cache, no-store, must-revalidate"
+              Header set Pragma "no-cache"
+              Header set Expires 0
+          </filesMatch>
+
+          # Gzip compression
+          <IfModule mod_deflate.c>
+              AddOutputFilterByType DEFLATE text/plain
+              AddOutputFilterByType DEFLATE text/html
+              AddOutputFilterByType DEFLATE text/xml
+              AddOutputFilterByType DEFLATE text/css
+              AddOutputFilterByType DEFLATE application/xml
+              AddOutputFilterByType DEFLATE application/xhtml+xml
+              AddOutputFilterByType DEFLATE application/rss+xml
+              AddOutputFilterByType DEFLATE application/javascript
+              AddOutputFilterByType DEFLATE application/x-javascript
+          </IfModule>
+          EOF
+          echo "✅ .htaccess created successfully"
+
+      - name: Deploy to build branch
         uses: s0/git-publish-subdir-action@develop
         env:
-          REPO: https://github.com/${{ github.repository }}.git
+          REPO: git@github.com:paulpacaud/deepmind-gemma-frontend.git
           BRANCH: build
-          FOLDER: dist/your-app-name
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MESSAGE: "Deploy build ⬆️"
+          FOLDER: dist/deepmind-gemma-frontend
+          MESSAGE: "Deploy build 📦 - ${{ github.sha }}"
+          SSH_PRIVATE_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
