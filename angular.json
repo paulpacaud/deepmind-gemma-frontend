@@ -31,7 +31,6 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/smr/",
               "budgets": [
                 {
                   "type": "initial",
