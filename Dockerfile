@@ -15,6 +15,7 @@ COPY nginx.conf /etc/nginx/conf.d
 # wipe the default welcome page
 RUN rm -rf /usr/share/nginx/html/*
 
+
 # ⬇️ copy the browser bundle (note the /browser/ suffix)
 COPY --from=build /app/dist/deepmind-gemma-frontend/browser/ /usr/share/nginx/html/
 
