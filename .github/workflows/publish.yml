@@ -32,15 +32,6 @@ jobs:
           echo "📁 Build output:"
           ls -la dist/
 
-      - name: Set up SSH
-        run: |
-          echo "🔐 Setting up SSH..."
-          mkdir -p ~/.ssh
-          echo "${{ secrets.ACTIONS_DEPLOY_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-          echo "✅ SSH setup completed"
-
       - name: Deploy to build branch
         uses: s0/git-publish-subdir-action@develop
         env:
@@ -48,4 +39,4 @@ jobs:
           BRANCH: build
           FOLDER: dist/deepmind-gemma-frontend
           MESSAGE: "Deploy build 📦 - ${{ github.sha }}"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Added for better authentication
+          SSH_PRIVATE_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
