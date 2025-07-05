@@ -34,6 +34,8 @@ And finally, before running the app, you have to install all the dependencies of
 yarn install
 ```
 
+Warning: please make sure to activate prettier "run on save" in your IDE, so that the code is formatted automatically when you save it.
+
 ## Running the app
 
 Great! Everything is installed, you can now run the frontend app
