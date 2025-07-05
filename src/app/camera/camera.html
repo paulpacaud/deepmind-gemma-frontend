@@ -1,15 +1,31 @@
 <div class="overlay">
   <div class="camera-box">
+    <div class="camera-header">
+      <h3 class="camera-title">📷 Scan Medical Document</h3>
+      <p class="camera-subtitle">Position the document clearly in the frame</p>
+    </div>
+    
     <video #video autoplay playsinline></video>
     <canvas #canvas hidden></canvas>
 
     <div class="controls">
-      <button (click)="take()" [disabled]="saving()">📸 Capture</button>
-      <button (click)="close()">✖ Close</button>
+      <button (click)="take()" [disabled]="saving()">
+        <span *ngIf="!saving()">📸 Capture Document</span>
+        <span *ngIf="saving()">📤 Uploading...</span>
+      </button>
+      <button (click)="close()">✖ Close Camera</button>
     </div>
 
-    <p *ngIf="saving()">Uploading…</p>
-    <p class="error" *ngIf="error()">{{ error() }}</p>
-    <p class="info" *ngIf="info()">{{ info() }}</p>
+    <div class="status-message uploading" *ngIf="saving()">
+      Processing and uploading document...
+    </div>
+    
+    <div class="status-message error" *ngIf="error()">
+      {{ error() }}
+    </div>
+    
+    <div class="status-message info" *ngIf="info()">
+      {{ info() }}
+    </div>
   </div>
 </div>
