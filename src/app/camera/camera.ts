@@ -34,10 +34,27 @@ export class Camera {
 
   async ngAfterViewInit(): Promise<void> {
     try {
-      this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      // Configuration pour la caméra arrière sur tablette
+      const constraints: MediaStreamConstraints = {
+        video: {
+          facingMode: { ideal: 'environment' }, // Caméra arrière
+          width: { ideal: 1920 },
+          height: { ideal: 1080 }
+        }
+      };
+      
+      this.stream = await navigator.mediaDevices.getUserMedia(constraints);
       this.videoRef.nativeElement.srcObject = this.stream;
     } catch (err) {
-      this.error.set('Could not access camera');
+      console.error('Camera error:', err);
+      // Fallback en cas d'échec avec la caméra arrière
+      try {
+        this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        this.videoRef.nativeElement.srcObject = this.stream;
+        this.info.set('🔄 Using front camera (rear camera not available)');
+      } catch (fallbackErr) {
+        this.error.set('Could not access camera');
+      }
     }
   }
 

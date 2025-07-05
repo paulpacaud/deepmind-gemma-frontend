@@ -1,7 +1,17 @@
 <div class="records-container" *ngIf="!loading(); else spinner">
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button class="tab" (click)="navigateToLegacy()">
+      📋 DMP Traditionnel
+    </button>
+    <button class="tab active">
+      🤖 Smart Medical Record (IA)
+    </button>
+  </div>
+
   <!-- Top Navigation Bar -->
   <div class="top-nav">
-    <div class="project-name">🩺 Smart Health Record</div>
+    <div class="project-name">🩺 Smart Medical Record</div>
     <div class="hackathon-badge">
       Google DeepMind Healthcare Hackathon 2025
     </div>

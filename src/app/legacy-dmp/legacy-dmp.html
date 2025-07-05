@@ -1,0 +1,122 @@
+<div class="legacy-container">
+  <!-- Navigation Tabs -->
+  <div class="tab-navigation">
+    <button class="tab active">
+      DMP Traditionnel
+    </button>
+    <button class="tab" (click)="navigateToSmart()">
+      Smart Medical Record (IA)
+    </button>
+  </div>
+
+  <!-- Top Navigation Bar -->
+  <div class="top-nav">
+    <div class="project-name">Dossier Medical Partage - Version 2.1</div>
+    <div class="hackathon-badge">
+      Systeme Hospitalier Francais
+    </div>
+  </div>
+
+  <!-- Patient Info Header -->
+  <div class="patient-header">
+    <div class="patient-info">
+      <div class="patient-details">
+        <h1>DUPONT, Martin</h1>
+        <p>Date de naissance: 15/03/1978 (45 ans)</p>
+        <p>No Securite Sociale: 1 78 03 75 123 456 78</p>
+        <p>Medecin traitant: Dr. LEMOINE Jean-Pierre</p>
+        <p>Derniere mise a jour: 15/01/2024 14:32</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documents List -->
+  <div class="documents-wrapper">
+    <div class="documents-header">
+      <h2>Documents medicaux disponibles ({{ documents().length }} fichiers PDF)</h2>
+    </div>
+
+    <div class="documents-list">
+      <div 
+        class="document-item" 
+        *ngFor="let doc of documents()" 
+        (click)="openDocument(doc)"
+      >
+        <div class="document-icon">PDF</div>
+        <div class="document-info">
+          <div class="document-title">{{ doc.title }}</div>
+          <div class="document-meta">
+            <span class="document-type">{{ doc.type }}</span>
+            <span class="document-date">{{ doc.date }}</span>
+            <span class="document-doctor">{{ doc.doctor }}</span>
+          </div>
+          <div class="document-details">
+            <span class="pages">{{ doc.pages }} page(s)</span> - 
+            <span class="size">{{ doc.size }}</span>
+          </div>
+        </div>
+        <div class="download-icon">Ouvrir</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Call to Action -->
+  <div class="cta-section">
+    <div class="cta-content">
+      <h3>Solution intelligente disponible</h3>
+      <p>Une nouvelle version du dossier medical avec intelligence artificielle 
+         est maintenant disponible pour ameliorer l'efficacite medicale.</p>
+      <button class="smart-btn" (click)="navigateToSmart()">
+        Acceder a la version IA
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" *ngIf="loading()">
+  <div class="loading-content">
+    <div class="loading-spinner"></div>
+    <p>Chargement du document PDF...</p>
+    <p>Veuillez patienter...</p>
+  </div>
+</div>
+
+<!-- Document Viewer Modal -->
+<div class="document-modal" *ngIf="selectedDocument()" (click)="closeDocument()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ selectedDocument()?.title }}</h3>
+      <button class="close-btn" (click)="closeDocument()">X</button>
+    </div>
+    <div class="modal-body">
+      <div class="pdf-placeholder">
+        <h4>Contenu du document PDF</h4>
+        <p>Type: {{ selectedDocument()?.type }}</p>
+        <p>Date: {{ selectedDocument()?.date }}</p>
+        <p>Medecin: {{ selectedDocument()?.doctor }}</p>
+        <hr>
+        <div class="fake-text">
+          <p>COMPTE RENDU DE CONSULTATION</p>
+          <div class="text-line long"></div>
+          <div class="text-line medium"></div>
+          <div class="text-line long"></div>
+          <div class="text-line short"></div>
+          <div class="text-line medium"></div>
+          <div class="text-line long"></div>
+          <div class="text-line medium"></div>
+          <div class="text-line short"></div>
+          <div class="text-line long"></div>
+          <div class="text-line medium"></div>
+        </div>
+        <div class="frustration-message">
+          <p><strong>Problemes identifie:</strong></p>
+          <p>- Texte non structure et difficile a analyser</p>
+          <p>- Informations importantes noyees dans le texte</p>
+          <p>- Temps de lecture: 3-5 minutes par document</p>
+          <p>- Risque d'erreur humaine dans l'extraction des donnees</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

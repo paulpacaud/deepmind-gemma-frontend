@@ -62,6 +62,10 @@ export class Records {
     this.router.navigateByUrl('/chat');
   }
 
+  navigateToLegacy(): void {
+    this.router.navigateByUrl('/legacy');
+  }
+
   toggleCamera(): void {
     this.cameraOpen.update((v) => !v);
   }
