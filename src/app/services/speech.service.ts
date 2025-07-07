@@ -2,6 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+
 
 export interface SpeechResult {
   transcript: string;

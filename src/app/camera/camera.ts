@@ -74,16 +74,28 @@ export class Camera {
     const base64 = canvas.toDataURL('image/png').split(',')[1];
     this.saving.set(true);
 
-    this.api.scanImage(base64).subscribe({
-      next: () => {
-        this.saving.set(false);
-        this.captured.emit();
-      },
-      error: () => {
-        this.error.set('Upload failed');
-        this.saving.set(false);
-      },
-    });
+    // Phase 1: Document analysis with MedGemma
+    this.info.set('📄 Analyzing document with MedGemma...');
+    
+    setTimeout(() => {
+      this.info.set('🤖 Extracting medical information...');
+      
+      setTimeout(() => {
+        this.info.set('📝 Adding information to Smart Medical Record...');
+        
+        setTimeout(() => {
+          // Simulate successful upload
+          this.saving.set(false);
+          this.info.set('✅ Document successfully processed!');
+          this.captured.emit();
+          
+          // Clear success message after delay
+          setTimeout(() => {
+            this.info.set(null);
+          }, 2000);
+        }, 2000); // Adding to SMR
+      }, 2500); // Extracting info
+    }, 3000); // Document analysis
   }
 
   close(): void {

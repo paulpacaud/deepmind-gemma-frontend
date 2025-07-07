@@ -17,7 +17,7 @@
     </div>
 
     <div class="status-message uploading" *ngIf="saving()">
-      Processing and uploading document...
+      {{ info() || 'Processing and uploading document...' }}
     </div>
     
     <div class="status-message error" *ngIf="error()">
